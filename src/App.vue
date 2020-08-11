@@ -1,32 +1,34 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/all">All</router-link> |
+      <router-link to="/active">Active</router-link> |
+      <router-link to="/complete">Complete</router-link>
     </div>
-    <router-view/>
+    <TodoInput />
+    <div id="list">
+      <TodoList v-for="index in todoIndex" :key="index" :index=index />
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import TodoInput from '@/components/Todoinput.vue'
+import TodoList from '@/components/Todolist.vue'
+export default {
+  components: {
+    TodoInput,
+    TodoList
+  },
+  computed: {
+    todoIndex () {
+      return this.$store.getters.getTodoIndex
     }
+  },
+  mounted () {
+    this.$store.dispatch('INIT_TODOS')
   }
 }
-</style>
+</script>
+
+<style src="@/assets/style/all.css"></style>
